@@ -22,7 +22,6 @@ body {
 #Info {
     font-size: 16px;
     float: right;
-    color: aliceblue;
 }
 .big-square {
     display: grid;
@@ -56,4 +55,48 @@ body {
 .incorrect {
     background-color: rgb(236, 152, 152);
     color: red;
+}
+#Title {
+    font-size: 40px;
+}
+.option {
+    appearance: none;
+  
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+  
+    border: 2px solid black;
+    transition: 0.2s all linear;
+    margin-right: 5px;
+  
+    position: relative;
+    top: 2px;
+  }
+.option:checked {
+    border: 6px solid black;
+  }
+.option:hover, label:hover {
+    cursor: pointer;
+  }
+#Generate {
+    background-color: rgba(236, 152, 152, 0);
+    font-family: 'Fira Code', monospace;
+    font-size: 15px;
+    padding: 7px;
+    border: 3px dashed black;
+    margin-bottom: 100px;
+    transition: 0.2s all linear;
+
+}
+#Generate:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+#Container {
+    user-select: none;
+}
+a:hover {
+    cursor: pointer;
 }

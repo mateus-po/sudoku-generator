@@ -6,10 +6,14 @@ class Sudoku {
     #Array:number[][]
     #Grid:HTMLElement|null
     #PossibleSolutions: number
+    #Difficulty:number
+    #Empty_Cells:number
 
 
-    constructor (size:number, gridID:string) {
+    constructor (size:number, difficulty:number, gridID:string) {
         this.#SIZE = size
+        this.#Empty_Cells = 0
+        this.#Difficulty = difficulty
         this.#Grid = document.getElementById(gridID)
 
         if (!this.#Grid) {
@@ -19,12 +23,27 @@ class Sudoku {
         this.#Array = []
         this.#PossibleSolutions = 0
         let tries = this.#fill_arr()
-        // setting size property in order for grid to function properly
         document.documentElement.style.setProperty('--size', `${size}`);
         this.#getGridHTML()
 
         this.#readyGrid()
 
+    }
+
+    getValue(x:number, y:number): number {
+        return this.#Array[x][y]
+    }
+
+    getSize():number {
+        return this.#SIZE
+    }
+
+    getAllowedNumbers():number[] {
+        return this.#range(this.#SIZE**2)
+    }
+
+    getEmptyCells():number {
+        return this.#Empty_Cells
     }
 
     #getGridHTML():void {
@@ -107,7 +126,7 @@ class Sudoku {
         let ProperlyGeneratedFlag = true
         for (let i = 0; i < this.#SIZE**2; i++) {
             let inLineX = []
-            // console.log(inLineX)
+
             let attempts = 1
             this.#Array.push([])
             for (let j = 0; j < this.#SIZE**2; j++) {
@@ -128,7 +147,6 @@ class Sudoku {
 
                 let AllowedNumbers = this.#range(this.#SIZE**2, toExclude)
                 let RandomizedNumbers = AllowedNumbers[Math.floor(Math.random() * AllowedNumbers.length)];
-                // console.log(`to zostało wylowowane: ${wylosowane}`)
                 if(RandomizedNumbers === undefined) {
                     if (attempts < 10) {
                         j = -1;
@@ -149,12 +167,10 @@ class Sudoku {
             
         }
         if(!ProperlyGeneratedFlag) return this.#fill_arr(ile+1)
-        else console.log(this.#Array)
 
         return ile
     }
 
-    // ------------------ functions used to validate numbers before putting them in a grid ----------------------
     #validate_Y(arr:number[][], i:number) {
         let result:number[] = []
         for (let j = 0; j < arr.length; j++) {
@@ -162,8 +178,6 @@ class Sudoku {
         }
         return result;
     }
-
-
 
     #validate_Square(arr:number[][], x:number,y:number) {
         let sq_y = (y - y % Math.sqrt(arr.length))
@@ -192,7 +206,6 @@ class Sudoku {
 
 
     #sudokuSolver(grid:number[][]) {
-        //console.table(grid)
 
         for (let row = 0; row < grid.length; row++) {
         
@@ -221,7 +234,6 @@ class Sudoku {
                             }
                             if (full) {
                                 this.#PossibleSolutions += 1
-                                //console.table(grid_copy)
                                 grid[row][cell] = 0
                                 return true
                             }
@@ -251,8 +263,8 @@ class Sudoku {
         let grid_copy = JSON.parse(JSON.stringify(this.#Array))
 
         let i = 1
-        let empty_cells = 0
-        while (i < 100) {
+        this.#Empty_Cells = 0
+        while (i < this.#Difficulty) {
             i ++
             //console.log(i)
             let row = this.#getRandomIntInclusive(0,this.#SIZE**2-1)
@@ -268,7 +280,7 @@ class Sudoku {
             this.#sudokuSolver(grid_copy)
 
             if (this.#PossibleSolutions == 1) {
-                empty_cells += 1
+                this.#Empty_Cells += 1
             }
             else {
                grid_copy[row][cell] = x
@@ -286,11 +298,5 @@ class Sudoku {
 
         }
     }
-
-
     
-
 }
-
-
-const s = new Sudoku(4, 'Grid')

@@ -12,26 +12,51 @@
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
 
 </head>
-<body onkeydown="press(event)">
+<body onkeydown="pressKey(event)">
+
+
+
 
     
     <div id="Container">
-        <span id="Info">
-            Mistakes: <span id="Mistakes">0</span>, Time: <span id="Timer">00:00:00</span>
-        </span>
-        <div id="Grid"></div>
+        <h1 id="Title">sudoku</h1>
+        <h2>Choose Grid Size:</h2>
+
+        <label for="2" onclick="toggle(this)">
+        <input type="radio" class="option" name="size" value="2">
+        4x4</label><br>
+        <label for="3" onclick="toggle(this)">
+        <input type="radio" class="option" name="size" value="3" checked>
+        9x9</label><br>
+        <label for="4" onclick="toggle(this)">
+        <input type="radio" class="option" name="size" value="4">
+        16x16</label><br>
+        <h2>Choose Difficulty:</h2>
+        <label for="0" onclick="toggle(this)">
+        <input type="radio" class="option" name="difficulty" value="0">
+        easy</label><br>
+        <label for="1" onclick="toggle(this)">
+        <input type="radio" class="option" name="difficulty" value="1" checked>
+        medium</label><br>
+        <label for="2" onclick="toggle(this)">
+        <input type="radio" class="option" name="difficulty" value="2">
+        hard</label><br>
+        <br>
+        <button id="Generate">Generate sudoku</button>
+
+
+
 
     </div>
     
 
 
 
-
-
+    <script src="confetti.js" ></script>
     <script src="build/sudokuClass.js" defer></script>
     <script src="build/interface.js" defer></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js" defer></script>
+
     
 </body>
 
