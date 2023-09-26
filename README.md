@@ -68,4 +68,4 @@ If you manage to fill the entire Sudoku grid, the page applauds you with firewor
 
 # What can be improved
 
-I made this sudoku grid generator back in 2021 (and this repository is jsut a remake of orginal project), when I didn't had the best knowledge of data structures and time complexity. If I were to make it today, I would use TypedArray data structure (e.g Int8Array) instead of JavaScript dymanic arrays. It would significantly speed the generator up (especially when generating big and difficult grids).
+I made this sudoku grid generator back in 2021 (and this repository is just a remake of orginal project), when I didn't had the best knowledge of data structures and time complexity. If I were to make it today, I would use TypedArray data structure (e.g Int8Array) instead of JavaScript dymanic arrays. It would significantly speed the generator up (especially when generating big and difficult grids).
