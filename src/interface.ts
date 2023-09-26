@@ -2,6 +2,7 @@ const GenerateButton = document.getElementById('Generate')!
 const Container = document.getElementById('Container')!
 let mistakes_board:HTMLElement
 let timer_board:HTMLElement
+let mistakes:number
 
 
 let sudoku: Sudoku
@@ -41,11 +42,11 @@ GenerateButton.addEventListener('click', () => {
     let difficulties = [
         [10, 16, 30],
         [45, 70, 140],
-        [100, 170, 200]
+        [100, 170, 190]
     ]
 
     Container.innerHTML = `
-        <a onClick="location.reload()">Go back to menu</a>
+        <a onClick="location.reload()">Go back</a>
         <span id="Info">
             Mistakes: <span id="Mistakes">0</span>, Time: <span id="Timer">00:00:00</span>
         </span>
@@ -55,22 +56,48 @@ GenerateButton.addEventListener('click', () => {
     timer_board = document.getElementById("Timer")!
     sudoku = new Sudoku(size, difficulties[size-2][difficulty], 'Grid')
     empty_cells = sudoku.getEmptyCells()
+    mistakes = 0 
 })
 
 
 function pressKey(event:KeyboardEvent) {
 
 
-    if (sudoku.getAllowedNumbers().includes(parseInt(event.key))) {
+    if (sudoku.getAllowedNumbers().includes(parseInt(event.key)) || event.key == 'Enter' || event.key == "Backspace") {
 
-        let selected_number = parseInt(event.key)
+        let selected_number:number = 0
+        const ActiveElement = document.querySelector(".Active")!
 
-        if (sudoku.getSize() < 4) {
-            document.querySelector(".Active")!.innerHTML = event.key;
+        if (event.key == 'Backspace') {
+            ActiveElement.innerHTML = ""
+            ActiveElement.className = 'small-square Active'
+            return
+        }
+        else if (sudoku.getSize() < 4) {
+            ActiveElement.innerHTML = event.key
+            selected_number = parseInt(event.key)
+        }
+        else if (event.key == '1') {
+            ActiveElement.innerHTML = event.key
+            return
+        }
+        else if (ActiveElement.innerHTML == ''
+        && ['2','3','4','5','6','7','8','9'].includes(event.key)) {
+            ActiveElement.innerHTML = event.key
+            selected_number = parseInt(event.key)
+        } 
+        else if (ActiveElement.innerHTML == '1'
+        && ['1','2','3','4','5','6','7','8','9'].includes(event.key)) {
+            ActiveElement.innerHTML += event.key
+            selected_number = parseInt(ActiveElement.innerHTML)
+        }
+        else if (event.key == 'Enter' && ActiveElement.innerHTML == '1')
+        {
+            selected_number = 1
         }
         
 
-        let id = document.querySelector(".Active")!.id;
+        let id = ActiveElement.id;
         let cords_strings= id.split("-")
         let cords:number[] = [];
 
@@ -85,11 +112,11 @@ function pressKey(event:KeyboardEvent) {
         }
         
         if (sudoku.getValue(cords[1], cords[0]) != selected_number) {
-            document.querySelector(".Active")!.className += " incorrect"
+            ActiveElement.className += " incorrect"
             add_mistake()
         }
         else {
-            document.querySelector(".Active")!.className = "fixed"
+            ActiveElement.className = "fixed"
             empty_cells --
             if (empty_cells == 0) {
                 clearInterval(timer_Interval)
@@ -99,7 +126,7 @@ function pressKey(event:KeyboardEvent) {
     }
 }
 
-let mistakes = 0
+
 function add_mistake() {
     mistakes += 1;
     mistakes_board.innerHTML = mistakes.toString()
@@ -133,7 +160,6 @@ function timer() {
 }
 
 function victory() {
-    console.log("wygranko")
     party.confetti(Container, {gravity: -1000,
                             count: party.variation.range(100, 200)})
 

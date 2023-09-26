@@ -37,7 +37,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 3em;
+    font-size: 2.3em;
 }
 .fixed {
     background-color: white;
@@ -54,6 +54,7 @@ body {
 }
 .incorrect {
     background-color: rgb(236, 152, 152);
+    font-size: 2.3em;
     color: red;
 }
 #Title {
@@ -99,4 +100,7 @@ body {
 }
 a:hover {
     cursor: pointer;
+}
+.incorrect.Active {
+    background-color: rgb(228, 110, 110);
 }
