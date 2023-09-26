@@ -42,7 +42,7 @@ GenerateButton.addEventListener('click', () => {
     let difficulties = [
         [10, 16, 30],
         [45, 70, 140],
-        [100, 170, 190]
+        [100, 170, 210]
     ]
 
     Container.innerHTML = `
@@ -62,11 +62,14 @@ GenerateButton.addEventListener('click', () => {
 
 function pressKey(event:KeyboardEvent) {
 
+    const ActiveElement = document.querySelector(".Active")!
+
+    if (!ActiveElement) return
 
     if (sudoku.getAllowedNumbers().includes(parseInt(event.key)) || event.key == 'Enter' || event.key == "Backspace") {
 
         let selected_number:number = 0
-        const ActiveElement = document.querySelector(".Active")!
+
 
         if (event.key == 'Backspace') {
             ActiveElement.innerHTML = ""
@@ -160,7 +163,7 @@ function timer() {
 }
 
 function victory() {
-    party.confetti(Container, {gravity: -1000,
-                            count: party.variation.range(100, 200)})
+    fireworks()
 
 }
+
